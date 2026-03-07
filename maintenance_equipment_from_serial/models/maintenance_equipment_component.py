@@ -4,7 +4,7 @@ from odoo import models, fields
 class MaintenanceEquipmentComponent(models.Model):
     _name = 'maintenance.equipment.component'
     _description = 'Installed Equipment Component'
-    _order = 'id desc'
+    _order = 'product_name, default_code, id'
 
     equipment_id = fields.Many2one(
         'maintenance.equipment',
@@ -49,4 +49,5 @@ class MaintenanceEquipmentComponent(models.Model):
 
     note = fields.Char(
         string='Note',
+
     )
