@@ -1,0 +1,30 @@
+<odoo>
+
+    <record id="maintenance_equipment_search_from_serial" model="ir.ui.view">
+        <field name="name">maintenance.equipment.search.from.serial</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_search"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//search" position="inside">
+                <field name="model"/>
+                <field name="last_delivery_partner_id" string="Customer"/>
+                <field name="installed_component_serial_search" string="Installed Component Serial"/>
+
+                <filter string="By Customer"
+                        name="group_by_customer"
+                        context="{'group_by': 'last_delivery_partner_id'}"/>
+
+                <filter string="By Model"
+                        name="group_by_model"
+                        context="{'group_by': 'model'}"/>
+
+                <filter string="By Category"
+                        name="group_by_category"
+                        context="{'group_by': 'category_id'}"/>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

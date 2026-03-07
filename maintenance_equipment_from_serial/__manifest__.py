@@ -1,0 +1,24 @@
+{
+    'name': 'Maintenance Equipment from Serial',
+    'version': '1.0',
+    'summary': 'Create Maintenance Equipment from Serial Numbers',
+    'depends': [
+        'stock',
+        'maintenance',
+        'mrp',
+        'sale_stock',
+        'repair',
+    ],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/stock_lot_view.xml',
+        'views/maintenance_equipment_view.xml',
+        'views/product_template_view.xml',
+        'views/maintenance_equipment_tree_view.xml',
+        'views/maintenance_equipment_search_from_serial.xml',
+        'views/maintenance_equipment_component_view.xml',
+        'views/maintenance_equipment_component_event_view.xml',
+    ],
+    'installable': True,
+    'application': False,
+}

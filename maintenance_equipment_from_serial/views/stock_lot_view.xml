@@ -1,0 +1,52 @@
+<odoo>
+
+    <record id="view_production_lot_form_equipment" model="ir.ui.view">
+        <field name="name">stock.lot.form.equipment</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Create Equipment button -->
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_create_equipment"
+                            string="Create Equipment"
+                            type="object"
+                            class="btn-primary"
+                            invisible="equipment_count > 0 or not track_as_equipment"/>
+                    <button name="action_open_equipment"
+                            string="Open Equipment"
+                            type="object"
+                            class="btn-primary"
+                            invisible="equipment_count == 0 or not track_as_equipment"/>
+                </header>
+            </xpath>
+
+            <!-- Smart button -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+
+                <button type="object"
+                        name="action_open_equipment"
+                        class="oe_stat_button"
+                        icon="fa-cogs">
+                    <field name="equipment_count"
+                           widget="statinfo"
+                           string="Equipment"/>
+                </button>
+
+                <button type="object"
+                        name="action_open_where_used_equipment"
+                        class="oe_stat_button"
+                        icon="fa-sitemap"
+                        invisible="not where_used_equipment_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Where Used</span>
+                    </div>
+                </button>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

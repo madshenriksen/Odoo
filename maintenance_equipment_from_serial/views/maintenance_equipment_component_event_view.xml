@@ -1,0 +1,36 @@
+<odoo>
+
+    <record id="maintenance_equipment_component_event_list_view" model="ir.ui.view">
+        <field name="name">maintenance.equipment.component.event.list</field>
+        <field name="model">maintenance.equipment.component.event</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="equipment_id"/>
+                <field name="source_name"/>
+                <field name="product_id"/>
+                <field name="removed_lot_id"/>
+                <field name="added_lot_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="maintenance_equipment_component_event_form_view" model="ir.ui.view">
+        <field name="name">maintenance.equipment.component.event.form</field>
+        <field name="model">maintenance.equipment.component.event</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="equipment_id"/>
+                        <field name="source_model"/>
+                        <field name="source_ref"/>
+                        <field name="product_id"/>
+                        <field name="removed_lot_id"/>
+                        <field name="added_lot_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,21 @@
+<odoo>
+
+    <record id="product_template_form_equipment_category" model="ir.ui.view">
+        <field name="name">product.template.form.equipment.category</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='categ_id']" position="after">
+
+                <field name="track_as_equipment"/>
+
+                <field name="equipment_category_id"
+                       invisible="not track_as_equipment"/>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

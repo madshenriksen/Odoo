@@ -1,0 +1,37 @@
+<odoo>
+
+    <record id="maintenance_equipment_component_list_view" model="ir.ui.view">
+        <field name="name">maintenance.equipment.component.list</field>
+        <field name="model">maintenance.equipment.component</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="equipment_id"/>
+                <field name="default_code"/>
+                <field name="product_name"/>
+                <field name="lot_id"/>
+                <field name="active_component"/>
+                <field name="note"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="maintenance_equipment_component_form_view" model="ir.ui.view">
+        <field name="name">maintenance.equipment.component.form</field>
+        <field name="model">maintenance.equipment.component</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="equipment_id"/>
+                        <field name="lot_id"/>
+                        <field name="product_name" readonly="1"/>
+                        <field name="default_code" readonly="1"/>
+                        <field name="active_component"/>
+                        <field name="note"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,58 @@
+<odoo>
+
+    <record id="maintenance_equipment_tree_from_serial" model="ir.ui.view">
+        <field name="name">maintenance.equipment.tree.from.serial</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_tree"/>
+        <field name="arch" type="xml">
+
+            <!-- Fjern kolonner som ikke bruges -->
+            <xpath expr="//field[@name='employee_id']" position="replace"/>
+            <xpath expr="//field[@name='department_id']" position="replace"/>
+
+            <!-- Tilføj Vis/Skjul attribut til kolonner -->
+            <xpath expr="//field[@name='assign_date']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='technician_user_id']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='category_id']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="optional">show</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='serial_no']" position="attributes">
+                <attribute name="optional">hide</attribute>
+            </xpath>
+
+            <!-- Tilføj dine egne kolonner -->
+            <xpath expr="//list" position="inside">
+                <field name="model" optional="show"/>
+                <field name="last_delivery_partner_id" string="Customer" optional="show"/>
+                <field name="partner_ref" string="Vendor Reference" optional="hide"/>
+                <field name="active_request_count" string="Active Requests" optional="show"/>
+            </xpath>
+
+            <!-- Ændre rækkefølgen af kolonnerne -->
+            <xpath expr="//field[@name='category_id']" position="after">
+
+                <field name="name" position="move"/>
+                <field name="model" position="move"/>
+                <field name="serial_no" position="move"/>
+                <field name="last_delivery_partner_id" position="move"/>
+                <field name="active_request_count" position="move"/>
+                <field name="assign_date" position="move"/>
+                <field name="technician_user_id" position="move"/>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

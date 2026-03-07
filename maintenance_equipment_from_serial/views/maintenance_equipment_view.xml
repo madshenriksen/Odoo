@@ -1,0 +1,176 @@
+<odoo>
+
+    <record id="maintenance_equipment_form_serial_link" model="ir.ui.view">
+        <field name="name">maintenance.equipment.form.serial.link</field>
+        <field name="model">maintenance.equipment</field>
+        <field name="inherit_id" ref="maintenance.hr_equipment_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_sync_movements"
+                            type="object"
+                            string="Update Components"
+                            class="btn-secondary"
+                            invisible="not serial_lot_id"/>
+                </header>
+            </xpath>
+
+            <!-- Tilføj Kunde -->
+            <xpath expr="//field[@name='category_id']" position="after">
+                <field name="last_delivery_partner_id" invisible="not last_delivery_partner_id" groups="stock.group_stock_manager"/>
+            </xpath>
+
+            <!-- Tilføj BOM link -->
+            <xpath expr="//field[@name='model']" position="replace">
+                <label for="model"/>
+                <div class="o_row">
+                    <field name="model" readonly="1"/>
+                    <button name="action_open_production"
+                            type="object"
+                            class="oe_link"
+                            invisible="not production_id">
+                        <field name="production_name"/>
+                    </button>
+                </div>
+            </xpath>
+
+            <!-- Sæt felter til readonly -->
+            <xpath expr="//field[@name='partner_ref']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+            <xpath expr="//page[@name='product_information']//field[@name='serial_no']" position="attributes">
+                <attribute name="readonly">1</attribute>
+            </xpath>
+
+            <!-- Fjern Used By / Department / Employee -->
+            <xpath expr="//field[@name='equipment_assign_to']" position="replace"/>
+            <xpath expr="//field[@name='department_id']" position="replace"/>
+            <xpath expr="//field[@name='employee_id']" position="replace"/>
+
+            <!-- Fjern Description-tab -->
+            <xpath expr="//page[@name='description']" position="replace"/>
+
+            <!-- Vis note direkte i formularen -->
+            <xpath expr="//page[@name='product_information']/group" position="after">
+                <group string="Internal Notes">
+                    <field name="note" nolabel="1" placeholder="Internal notes..."/>
+                </group>
+            </xpath>
+
+            <!-- Tilføj tab til installerede komponenter -->
+            <xpath expr="//page[@name='maintenance']" position="before">
+                <page string="Installed Components" name="installed_components">
+                    <field name="active_installed_component_ids" nolabel="1" readonly="1">
+                        <list create="0" delete="0">
+                            <field name="default_code" string="Reference"/>
+                            <field name="product_name" string="Product"/>
+                            <field name="lot_id" string="Serial Number"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+            <!-- Tilføj tab med historik -->
+            <xpath expr="//page[@name='installed_components']" position="after">
+                <page string="Component History" name="component_history">
+                    <field name="component_event_ids" nolabel="1" readonly="1">
+                        <list create="0" delete="0">
+                            <field name="source_type"/>
+                            <field name="source_name"/>
+                            <field name="product_id"/>
+                            <field name="removed_lot_id"/>
+                            <field name="added_lot_id"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+
+            <!-- Smart buttons -->
+
+            <!-- Remove Maintenance Button -->
+            <xpath expr="//button[field[@name='maintenance_open_count']]" position="replace"/>
+
+            <!-- Tilføj Smart Buttons -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+
+                <button class="oe_stat_button"
+                        name="action_open_repair_parts"
+                        type="object"
+                        icon="fa-wrench"
+                        invisible="not repair_module_installed or repair_part_count == 0 or not serial_lot_id">
+                    <field name="repair_part_count" widget="statinfo" string="Repair Parts"/>
+                </button>
+
+                <button class="oe_stat_button"
+                        name="action_open_lot_repairs"
+                        type="object"
+                        icon="fa-wrench"
+                        invisible="not repair_module_installed or not serial_lot_id">
+                    <div class="o_field_widget o_stat_info">
+                        <div class="o_field_widget o_stat_info align-items-baseline flex-row gap-1 me-1">
+                            <span class="o_stat_text">To Do:</span>
+                            <span class="o_stat_value">
+                                <field name="in_repair_count" widget="statinfo" nolabel="1" class="mr4"/>
+                            </span>
+                        </div>
+                        <div class="o_field_widget o_stat_info align-items-baseline flex-row gap-1 me-1">
+                            <span class="o_stat_text">Done:</span>
+                            <span class="o_stat_value">
+                                <field name="repaired_count" widget="statinfo" nolabel="1" class="mr4"/>
+                            </span>
+                        </div>
+                    </div>
+                </button>
+
+                <!--<button type="object"
+                        name="action_open_installed_components"
+                        class="oe_stat_button"
+                        icon="fa-microchip"
+                        invisible="active_component_count == 0">
+                    <field name="active_component_count" widget="statinfo" string="Components"/>
+                </button>-->
+
+                <button type="object"
+                        name="action_open_lot_sales"
+                        class="oe_stat_button"
+                        icon="fa-pencil-square-o"
+                        invisible="sales_count == 0">
+                    <field name="sales_count" widget="statinfo" string="Sales"/>
+                </button>
+
+                <button type="object"
+                        name="action_open_lot_transfers"
+                        class="oe_stat_button"
+                        icon="fa-truck"
+                        invisible="not serial_lot_id">
+                    <field name="delivery_count" widget="statinfo" string="Transfers"/>
+                </button>
+
+                <button type="object"
+                        name="action_open_lot_location"
+                        class="oe_stat_button"
+                        icon="fa-arrows"
+                        invisible="not serial_lot_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Location</span>
+                    </div>
+                </button>
+
+                <button type="object"
+                        name="action_open_lot_traceability"
+                        class="oe_stat_button"
+                        icon="oi-arrow-up"
+                        invisible="not serial_lot_id">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Traceability</span>
+                    </div>
+                </button>
+
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>
