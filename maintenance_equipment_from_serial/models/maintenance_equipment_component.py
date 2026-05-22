@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class MaintenanceEquipmentComponent(models.Model):
@@ -30,10 +30,24 @@ class MaintenanceEquipmentComponent(models.Model):
     
     product_name = fields.Char(
         string="Product",
-        related='product_id.name',
+        compute="_compute_product_name",
         store=True,
-        readonly=True,
+        translate=False,
     )
+    
+    product_name_sort = fields.Char(
+        string="Product Sort",
+        compute="_compute_product_name",
+        store=True,
+        translate=False,
+    )
+    
+    @api.depends('product_id')
+    def _compute_product_name(self):
+        for rec in self:
+            name = rec.product_id.with_context(lang=False).name or ''
+            rec.product_name = name
+            rec.product_name_sort = name
 
     default_code = fields.Char(
         string='Reference',
