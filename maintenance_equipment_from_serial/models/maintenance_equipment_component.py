@@ -4,7 +4,7 @@ from odoo import models, fields, api
 class MaintenanceEquipmentComponent(models.Model):
     _name = 'maintenance.equipment.component'
     _description = 'Installed Equipment Component'
-    _order = 'product_name, default_code, id'
+    _order = 'product_name_sort, default_code, id'
 
     equipment_id = fields.Many2one(
         'maintenance.equipment',
@@ -34,14 +34,14 @@ class MaintenanceEquipmentComponent(models.Model):
         store=True,
         translate=False,
     )
-    
+
     product_name_sort = fields.Char(
         string="Product Sort",
         compute="_compute_product_name",
         store=True,
         translate=False,
     )
-    
+
     @api.depends('product_id')
     def _compute_product_name(self):
         for rec in self:

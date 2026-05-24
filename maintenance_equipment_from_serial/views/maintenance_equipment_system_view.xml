@@ -1,0 +1,78 @@
+<odoo>
+
+    <record id="maintenance_equipment_system_list_view" model="ir.ui.view">
+        <field name="name">maintenance.equipment.system.list</field>
+        <field name="model">maintenance.equipment.system</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="responsible_id"/>
+                <field name="equipment_count"/>
+                <field name="maintenance_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="maintenance_equipment_system_form_view" model="ir.ui.view">
+        <field name="name">maintenance.equipment.system.form</field>
+        <field name="model">maintenance.equipment.system</field>
+        <field name="arch" type="xml">
+            <form string="System Number">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button name="action_open_equipment"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-cogs">
+                            <field name="equipment_count"
+                                   widget="statinfo"
+                                   string="Equipment"/>
+                        </button>
+
+                        <button name="action_open_maintenance_requests"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-briefcase">
+                            <field name="maintenance_count"
+                                   widget="statinfo"
+                                   string="Maintenance"/>
+                        </button>
+
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. System 001"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <field name="responsible_id"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Comments" name="comments">
+                            <field name="note" nolabel="1"/>
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_maintenance_equipment_system" model="ir.actions.act_window">
+        <field name="name">System Numbers</field>
+        <field name="res_model">maintenance.equipment.system</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_maintenance_equipment_system"
+              name="System Numbers"
+              parent="maintenance.menu_maintenance_configuration"
+              action="action_maintenance_equipment_system"
+              sequence="25"/>
+
+</odoo>
