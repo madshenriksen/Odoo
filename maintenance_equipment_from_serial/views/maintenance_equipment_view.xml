@@ -16,8 +16,9 @@
                 </header>
             </xpath>
 
-            <!-- Tilføj Kunde -->
+            <!-- Tilføj System Number og Kunde -->
             <xpath expr="//field[@name='category_id']" position="after">
+                <field name="system_id"/>
                 <field name="last_delivery_partner_id" invisible="not last_delivery_partner_id" groups="stock.group_stock_manager"/>
             </xpath>
 
@@ -171,6 +172,11 @@
             </xpath>
 
         </field>
+    </record>
+
+    <record id="maintenance.hr_equipment_action" model="ir.actions.act_window">
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_group_by_system': 1}</field>
     </record>
 
 </odoo>

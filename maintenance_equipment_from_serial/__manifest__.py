@@ -18,6 +18,7 @@
         'views/maintenance_equipment_search_from_serial.xml',
         'views/maintenance_equipment_component_view.xml',
         'views/maintenance_equipment_component_event_view.xml',
+        'views/maintenance_equipment_system_view.xml',
     ],
     'installable': True,
     'application': False,

@@ -7,9 +7,14 @@
         <field name="arch" type="xml">
 
             <xpath expr="//search" position="inside">
+                <field name="system_id"/>
                 <field name="model"/>
                 <field name="last_delivery_partner_id" string="Customer"/>
                 <field name="installed_component_serial_search" string="Installed Component Serial"/>
+
+                <filter string="By System Number"
+                        name="group_by_system"
+                        context="{'group_by': 'system_id'}"/>
 
                 <filter string="By Customer"
                         name="group_by_customer"

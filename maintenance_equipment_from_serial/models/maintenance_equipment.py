@@ -27,6 +27,11 @@ class MaintenanceEquipment(models.Model):
         readonly=True,
     )
 
+    system_id = fields.Many2one(
+        'maintenance.equipment.system',
+        string='System Number',
+    )
+
     bom_id = fields.Many2one(
         'mrp.bom',
         string='BoM',

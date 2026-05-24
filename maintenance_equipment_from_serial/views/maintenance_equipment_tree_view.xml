@@ -37,11 +37,11 @@
                 <field name="last_delivery_partner_id" string="Customer" optional="show"/>
                 <field name="partner_ref" string="Vendor Reference" optional="hide"/>
                 <field name="active_request_count" string="Active Requests" optional="show"/>
+                <field name="system_id" string="System Number" optional="show"/>
             </xpath>
 
             <!-- Ændre rækkefølgen af kolonnerne -->
             <xpath expr="//field[@name='category_id']" position="after">
-
                 <field name="name" position="move"/>
                 <field name="model" position="move"/>
                 <field name="serial_no" position="move"/>
@@ -49,7 +49,10 @@
                 <field name="active_request_count" position="move"/>
                 <field name="assign_date" position="move"/>
                 <field name="technician_user_id" position="move"/>
+            </xpath>
 
+            <xpath expr="//field[@name='category_id']" position="before">
+                <field name="system_id" position="move"/>
             </xpath>
 
         </field>
