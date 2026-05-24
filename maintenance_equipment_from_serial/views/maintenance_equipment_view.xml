@@ -19,7 +19,7 @@
             <!-- Tilføj System Number og Kunde -->
             <xpath expr="//field[@name='category_id']" position="after">
                 <field name="system_id"/>
-                <field name="last_delivery_partner_id" invisible="not last_delivery_partner_id" groups="stock.group_stock_manager"/>
+                <field name="last_delivery_partner_id" groups="stock.group_stock_manager"/>
             </xpath>
 
             <!-- Tilføj BOM link -->

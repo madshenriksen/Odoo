@@ -60,7 +60,7 @@ class MaintenanceEquipment(models.Model):
     last_delivery_partner_id = fields.Many2one(
         'res.partner',
         string="Customer",
-        related='serial_lot_id.last_delivery_partner_id',
+        compute="_compute_current_customer",
         store=False,
         readonly=True,
     )
@@ -149,6 +149,58 @@ class MaintenanceEquipment(models.Model):
         return [('id', 'in', equipment_ids or [0])]
 
     @api.depends('serial_lot_id')
+    def _compute_current_customer(self):
+        Quant = self.env['stock.quant']
+        MoveLine = self.env['stock.move.line']
+        Component = self.env['maintenance.equipment.component']
+
+        for equipment in self:
+            equipment.last_delivery_partner_id = False
+
+            if not equipment.serial_lot_id:
+                continue
+
+            # 1) Hvis dette serial selv har lagerstatus
+            customer_quant = Quant.search([
+                ('lot_id', '=', equipment.serial_lot_id.id),
+                ('quantity', '>', 0),
+                ('location_id.usage', '=', 'customer'),
+            ], limit=1)
+
+            if customer_quant:
+                move_line = MoveLine.search([
+                    ('lot_id', '=', equipment.serial_lot_id.id),
+                    ('state', '=', 'done'),
+                    ('location_dest_id.usage', '=', 'customer'),
+                    ('picking_id.partner_id', '!=', False),
+                ], order='date desc, id desc', limit=1)
+
+                if move_line:
+                    equipment.last_delivery_partner_id = move_line.picking_id.partner_id.id
+                    continue
+
+            # 2) Hvis serial ligger internt, så skal customer være blank
+            internal_quant = Quant.search([
+                ('lot_id', '=', equipment.serial_lot_id.id),
+                ('quantity', '>', 0),
+                ('location_id.usage', '=', 'internal'),
+            ], limit=1)
+
+            if internal_quant:
+                continue
+
+            # 3) Hvis serial ikke har egen aktiv quant,
+            #    så kan det være installeret i et andet Equipment
+            component = Component.search([
+                ('lot_id', '=', equipment.serial_lot_id.id),
+                ('active_component', '=', True),
+                ('equipment_id', '!=', equipment.id),
+            ], limit=1)
+
+            if component and component.equipment_id:
+                equipment.last_delivery_partner_id = component.equipment_id.last_delivery_partner_id.id
+
+    @api.depends('serial_lot_id')
     def _compute_repair_info(self):
         lot_fields = self.env['stock.lot']._fields
         has_repair_fields = all(
@@ -227,13 +279,7 @@ class MaintenanceEquipment(models.Model):
     def _compute_model_from_bom(self):
         for equipment in self:
             equipment.model = equipment.bom_id.code or False
-    #def _compute_active_request_count(self):
-    #    Request = self.env['maintenance.request']
-    #    for equipment in self:
-    #        equipment.active_request_count = Request.search_count([
-    #            ('equipment_id', '=', equipment.id),
-    #            ('stage_id.done', '=', False),
-    #        ])
+
     def _compute_active_request_count(self):
         Repair = self.env['repair.order']
 

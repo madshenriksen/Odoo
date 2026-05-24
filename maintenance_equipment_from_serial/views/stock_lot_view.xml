@@ -49,4 +49,15 @@
         </field>
     </record>
 
+    <record id="action_bulk_create_equipment_from_lots" model="ir.actions.server">
+        <field name="name">Create Equipment</field>
+        <field name="model_id" ref="stock.model_stock_lot"/>
+        <field name="binding_model_id" ref="stock.model_stock_lot"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            records.action_bulk_create_equipment()
+        </field>
+    </record>
+
 </odoo>

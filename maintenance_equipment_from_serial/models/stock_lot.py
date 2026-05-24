@@ -184,3 +184,35 @@ class StockLot(models.Model):
                     equipment._sync_all_from_serial()
 
         return res
+
+    def action_bulk_create_equipment(self):
+        created_count = 0
+        skipped_count = 0
+
+        for lot in self:
+            if lot.equipment_ids:
+                skipped_count += 1
+                continue
+
+            if not lot.track_as_equipment:
+                skipped_count += 1
+                continue
+
+            lot.action_create_equipment()
+            created_count += 1
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': _('Create Equipment'),
+                'message': _(
+                    'Created %(created)s equipment(s). Skipped %(skipped)s lot/serial number(s).'
+                ) % {
+                    'created': created_count,
+                    'skipped': skipped_count,
+                },
+                'type': 'success',
+                'sticky': False,
+            }
+        }
