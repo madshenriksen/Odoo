@@ -64,6 +64,22 @@ Displayed columns include:
 - Repair history is stored as component events
 - Existing repairs can be backfilled using the manual sync action
 
+### System Numbers
+Adds a configurable **System Number** model for grouping related equipment.
+
+A System can contain multiple equipment units, such as:
+- Link Box
+- Laptop
+- Payload
+- Tablet
+
+Features include:
+- System Number configuration menu in Maintenance
+- Assign System Numbers to Equipment
+- Group Equipment by System Number
+- Smart buttons for Equipment and Maintenance Requests
+- Responsible user and comments on each System Number
+
 ### Smart buttons
 Adds or reuses smart buttons on Equipment for:
 
@@ -76,7 +92,7 @@ Adds or reuses smart buttons on Equipment for:
 
 ### Search and usability improvements
 - Search Equipment by installed component serial number
-- Group by Customer / Model / Category
+- Group by Customer / Model / Category / System Number
 - Optional columns in Equipment list view
 - Customer shown from Lot/Serial last delivery partner
 - "Used By", Department, and Employee fields removed from Equipment form
@@ -87,6 +103,7 @@ Adds or reuses smart buttons on Equipment for:
 
 #### `maintenance.equipment`
 Extended with:
+- `system_id`
 - `serial_lot_id`
 - `product_id`
 - `production_id`
@@ -111,6 +128,7 @@ Extended with:
 #### New models
 - `maintenance.equipment.component`
 - `maintenance.equipment.component.event`
+- `maintenance.equipment.system`
 
 ## Synchronization behavior
 
@@ -129,6 +147,7 @@ A manual action is available on Equipment to rebuild:
 - Installed Components
 - Component History
 - Manufacturing / repair-derived state
+- Equipment grouping through System Numbers
 
 This is useful for legacy data and troubleshooting.
 
@@ -148,7 +167,7 @@ This is useful for legacy data and troubleshooting.
 4. Install or upgrade the module
 
 ## Notes
-This module is designed for serialized products and repair traceability workflows.
+This module is designed for serialized products, repair traceability workflows, and grouped system-based equipment management.
 It is especially useful where equipment must reflect the real serialized configuration built in Manufacturing and changed through Repairs.
 
 ## Author
