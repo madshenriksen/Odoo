@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product form: checkbox + technical field for JS + small icon before the favourite star when possible -->
+    <record id="product_template_form_published_stock_number" model="ir.ui.view">
+        <field name="name">product.template.form.published.stock.number</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='options']" position="inside">
+                <field name="published_stock_number"/>
+                <label for="published_stock_number" string="NATO Stock Number"/>
+            </xpath>
+
+            <!--
+                Put the icon directly before the product name field on the product card.
+                The invisible attribute keeps it hidden unless Published Stock Number is checked.
+            -->
+            <xpath expr="//field[@name='name']" position="before">
+                <img src="/published_stock_number/static/src/img/published_stock_number.png"
+                     class="o_published_stock_number_icon o_published_stock_number_icon_form"
+                     title="Published Stock Number"
+                     alt="Published Stock Number"
+                     invisible="not published_stock_number"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product template list/tree view: include the field so backend JS can render the icon next to name. -->
+    <record id="product_template_tree_published_stock_number" model="ir.ui.view">
+        <field name="name">product.template.tree.published.stock.number</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_tree_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="published_stock_number" column_invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Product template kanban view: include the field so backend JS can render the icon next to name. -->
+    <record id="product_template_kanban_published_stock_number" model="ir.ui.view">
+        <field name="name">product.template.kanban.published.stock.number</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="published_stock_number"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
