@@ -1,0 +1,15 @@
+.o_published_stock_number_icon,
+.o_published_stock_number_icon_js {
+    width: 21px;
+    height: 21px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 4px;
+}
+
+/* Product form/card */
+.o_published_stock_number_icon_form {
+    width: 28px;
+    height: 28px;
+    margin: 4px 4px 0px 0px;
+}
